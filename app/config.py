@@ -5,3 +5,4 @@ from dotenv import load_dotenv
 load_dotenv()
 
 POSTGRESQL_URL = os.environ.get('POSTGRESQL_URL')
+RABBITMQ_URL = os.environ.get('RABBITMQ_URL')
