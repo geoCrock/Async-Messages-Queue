@@ -7,6 +7,7 @@ from fastapi import FastAPI, HTTPException
 from app.db import SessionLocal, TextTable
 from app.dto import TextCreate
 from app.queue import send_to_rabbit
+from app.queue import count_x
 
 # Создаем экземпляр FastAPI
 app = FastAPI()
@@ -17,7 +18,7 @@ app = FastAPI()
 async def create_text(info: TextCreate):
     send_to_rabbit(info.text)
     db = SessionLocal()
-    db_text = TextTable(created_at=datetime.now(), title=info.title, text=info.text)
+    db_text = TextTable(datetime=datetime.now(), title=info.title, text=info.text, x_avg_count_in_line=count_x(info.text))
     db.add(db_text)
     db.commit()
     db.refresh(db_text)

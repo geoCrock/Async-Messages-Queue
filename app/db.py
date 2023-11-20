@@ -1,5 +1,5 @@
 from databases import Database
-from sqlalchemy import create_engine, Column, String, Integer
+from sqlalchemy import create_engine, Column, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -11,14 +11,14 @@ database = Database(DATABASE_URL)
 metadata = declarative_base()
 
 
-# // TODO: Заменить название коллонки created_at на datetime, переиминовать название таблицы
 # Определяем модель для таблицы в базе данных
 class TextTable(metadata):
-    __tablename__ = "texts3"
+    __tablename__ = "texts4"
     id = Column(Integer, primary_key=True, index=True)
-    created_at = Column(String)
+    datetime = Column(String)
     title = Column(String)
     text = Column(String)
+    x_avg_count_in_line = Column(Float)
 
 
 # Создаем таблицу в базе данных
