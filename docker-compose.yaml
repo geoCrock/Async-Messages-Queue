@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: your_postgres_user
+      POSTGRES_PASSWORD: your_postgres_password
+      POSTGRES_DB: your_postgres_db
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: "rabbitmq:management"
+    environment:
+      RABBITMQ_DEFAULT_USER: your_rabbitmq_user
+      RABBITMQ_DEFAULT_PASS: your_rabbitmq_password
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://your_postgres_user:your_postgres_password@postgres:5432/your_postgres_db
+      RABBITMQ_URL: amqp://your_rabbitmq_user:your_rabbitmq_password@rabbitmq:5672/
+    ports:
+      - "8888:8888"
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
