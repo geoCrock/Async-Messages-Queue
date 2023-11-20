@@ -1,28 +1,31 @@
+import asyncio
+
 import uvicorn
 
-from datetime import datetime
-
 from fastapi import FastAPI, HTTPException
+from contextlib import asynccontextmanager
 
 from app.db import SessionLocal, TextTable
 from app.dto import TextCreate
-from app.queue import sent_to_rabbit
-from app.queue import count_x
+from app.async_queue import send_message, receive_message
+
+
+# Используем контекстный менеждер ака новый startup
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await receive_message()
+    yield
 
 # Создаем экземпляр FastAPI
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 
 # Ручка для сохранения текста в базе данных
-@app.post("/create-text/")
-async def create_text(info: TextCreate):
-    sent_to_rabbit(info.text)
-    db = SessionLocal()
-    db_text = TextTable(datetime=datetime.now(), title=info.title, x_avg_count_in_line=count_x(info.text))
-    db.add(db_text)
-    db.commit()
-    db.refresh(db_text)
-    db.close()
+@app.post("/add-text/")
+async def add_text(info: TextCreate):
+    await send_message(info.title, info.text)
+    # Интервал 3 секунды
+    await asyncio.sleep(3)
     return 'Message send!'
 
 
