@@ -8,7 +8,7 @@ RABBITMQ_URL = RABBITMQ_URL
 EXCHANGE_NAME = EXCHANGE_NAME
 
 
-def send_to_rabbit(message):
+def send_to_rabbit(message: str):
     message = str(message)
     # Соединение с сервером RabbitMQ
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))

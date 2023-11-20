@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 
 from app.db import SessionLocal, TextTable
 from app.dto import TextCreate
+from app.queue import send_to_rabbit
 
 # Создаем экземпляр FastAPI
 app = FastAPI()
@@ -14,6 +15,7 @@ app = FastAPI()
 # Ручка для сохранения текста в базе данных
 @app.post("/create-text/")
 async def create_text(info: TextCreate):
+    send_to_rabbit(info.text)
     db = SessionLocal()
     db_text = TextTable(created_at=datetime.now(), title=info.title, text=info.text)
     db.add(db_text)
