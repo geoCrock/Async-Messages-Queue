@@ -4,6 +4,8 @@ import uvicorn
 
 from fastapi import FastAPI, HTTPException
 from contextlib import asynccontextmanager
+from typing import List
+
 
 from app.db import SessionLocal, TextTable
 from app.dto import TextCreate
@@ -22,8 +24,12 @@ app = FastAPI(lifespan=lifespan)
 
 # Ручка для сохранения текста в базе данных
 @app.post("/add-text/")
-async def add_text(info: TextCreate):
-    await send_message(info.title, info.text)
+async def add_text(info: List[TextCreate]):
+    print(info)
+    for item in info:
+        title = item.title
+        text = item.text
+        await send_message(title, text)
     # Интервал 3 секунды
     await asyncio.sleep(3)
     return 'Message send!'
