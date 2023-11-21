@@ -26,13 +26,14 @@ app = FastAPI(lifespan=lifespan)
 @app.post("/add-text/")
 async def add_text(info: List[TextCreate]):
     print(info)
-    for item in info:
-        title = item.title
-        text = item.text
-        await send_message(title, text)
+    for i in info:
+        datetime = i.datetime
+        title = i.title
+        text = i.text
+        await send_message(datetime, title, text)
     # Интервал 3 секунды
     await asyncio.sleep(3)
-    return 'Message send!'
+    return 'Messages send!'
 
 
 # Ручка для получения текста из базы данных

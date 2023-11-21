@@ -1,13 +1,12 @@
 import aio_pika
 
-from datetime import datetime
 from app.db import SessionLocal, TextTable
 from config import RABBITMQ_URL
 from xcount import count_x
 
 
 # Асинхронная функция для отправки сообщения
-async def send_message(title, text):
+async def send_message(datetime: str, title: str, text: str):
     # Устанавливаем соединение с RabbitMQ
     connection = await aio_pika.connect_robust(RABBITMQ_URL)
 
@@ -24,7 +23,7 @@ async def send_message(title, text):
     message_body = text
 
     # Создаем объект сообщения с указанным телом и хедом
-    message = aio_pika.Message(body=message_body.encode(), headers={'title': f'{title}'})
+    message = aio_pika.Message(body=message_body.encode(), headers={'datetime': datetime, 'title': title})
 
     # Публикуем сообщение в очередь
     await channel.default_exchange.publish(message, routing_key=queue_name)
@@ -55,9 +54,10 @@ async def receive_message():
         async with message.process():
             # Выводим сообщение
             title = message.headers.get("title", "")
+            datetime = message.headers.get('datetime', '')
             x = await count_x(message.body.decode())
             db = SessionLocal()
-            db_text = TextTable(datetime=datetime.now(), title=title, x_avg_count_in_line=x)
+            db_text = TextTable(datetime=datetime, title=title, x_avg_count_in_line=x)
             db.add(db_text)
             db.commit()
             db.refresh(db_text)
