@@ -25,7 +25,6 @@ app = FastAPI(lifespan=lifespan)
 # Ручка для сохранения текста в базе данных
 @app.post("/add-text/")
 async def add_text(info: List[TextCreate]):
-    print(info)
     for i in info:
         datetime = i.datetime
         title = i.title
@@ -40,7 +39,7 @@ async def add_text(info: List[TextCreate]):
 @app.get("/get-text/")
 async def get_text():
     db = SessionLocal()
-    db_text = (db.query(TextTable.id, TextTable.datetime, TextTable.title, TextTable.x_avg_count_in_line)
+    db_text = (db.query(TextTable.datetime, TextTable.title, TextTable.x_avg_count_in_line)
                .order_by(TextTable.id.desc()).all())
     db.close()
     if db_text is None:
