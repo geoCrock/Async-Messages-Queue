@@ -19,14 +19,16 @@
 
 3. Создайте файл `.env` в корне проекта и укажите необходимые переменные окружения:
 
+   Пример:
     ```env
-    POSTGRES_URL=ваш_пользователь_пароль_путь_до_postgres
-    Пример: POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
+    POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
     
-    RABBITMQ_URL=ваш_пользователь_пароль_путь_до_rabbitmq
-    Пример: RABBITMQ_URL = "amqp://guest:guest@localhost/"
+    RABBITMQ_URL = "amqp://guest:guest@localhost/"
     ```
-4. Запустите main.py в папке app:
+
+   Указывайте ваши параметры
+   
+5. Запустите main.py в папке app:
    ```bash
     cd app
     ```
@@ -63,21 +65,23 @@
 
 3. Создайте файл `.env` в корне проекта и укажите необходимые переменные окружения:
 
+
+   Пример:
     ```env
-    POSTGRES_URL=ваш_пользователь_пароль_путь_до_postgres
-    Пример: POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
+    POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
     
-    RABBITMQ_URL=ваш_пользователь_пароль_путь_до_rabbitmq
-    Пример: RABBITMQ_URL = "amqp://guest:guest@localhost/"
+    RABBITMQ_URL = "amqp://guest:guest@localhost/"
     ```
 
-4. Соберите и запустите Docker-контейнеры:
+   Указывайте ваши параметры
+
+5. Соберите и запустите Docker-контейнеры:
 
     ```bash
     docker-compose up --build
     ```
 
-5. Ваше FastAPI-приложение будет доступно по адресу [http://localhost:8888](http://localhost:8888).
+6. Ваше FastAPI-приложение будет доступно по адресу [http://localhost:8888](http://localhost:8888).
 
 ## Использование
 
