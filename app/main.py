@@ -40,7 +40,8 @@ async def add_text(info: List[TextCreate]):
 @app.get("/get-text/")
 async def get_text():
     db = SessionLocal()
-    db_text = db.query(TextTable).all()
+    db_text = (db.query(TextTable.id, TextTable.datetime, TextTable.title, TextTable.x_avg_count_in_line)
+               .order_by(TextTable.id.desc()).all())
     db.close()
     if db_text is None:
         raise HTTPException(status_code=404, detail="Text not found")

@@ -28,9 +28,6 @@ async def send_message(datetime: str, title: str, text: str):
     # Публикуем сообщение в очередь
     await channel.default_exchange.publish(message, routing_key=queue_name)
 
-    # Выводим информацию о том, что сообщение отправлено
-    print(f" [x] Sent '{message_body}'")
-
     # Закрываем соединение
     await connection.close()
 
@@ -52,7 +49,7 @@ async def receive_message():
     async def callback(message: aio_pika.IncomingMessage):
         # Асинхронно обрабатываем сообщение
         async with message.process():
-            # Выводим сообщение
+            # Добавляем сообщение в БД
             title = message.headers.get("title", "")
             datetime = message.headers.get('datetime', '')
             x = await count_x(message.body.decode())
