@@ -13,7 +13,7 @@ metadata = declarative_base()
 
 # Определяем модель для таблицы в базе данных
 class TextTable(metadata):
-    __tablename__ = "texts6"
+    __tablename__ = "x_count_form_text"
     id = Column(Integer, primary_key=True, index=True)
     datetime = Column(String)
     title = Column(String)

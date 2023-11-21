@@ -23,8 +23,8 @@ app = FastAPI(lifespan=lifespan)
 
 
 # Ручка для сохранения текста в базе данных
-@app.post("/add-text/")
-async def add_text(info: List[TextCreate]):
+@app.post("/count-x-from-text/")
+async def count_x_from_text(info: List[TextCreate]):
     for i in info:
         datetime = i.datetime
         title = i.title
@@ -36,8 +36,8 @@ async def add_text(info: List[TextCreate]):
 
 
 # Ручка для получения текста из базы данных
-@app.get("/get-text/")
-async def get_text():
+@app.get("/get-x/")
+async def get_x():
     db = SessionLocal()
     db_text = (db.query(TextTable.datetime, TextTable.title, TextTable.x_avg_count_in_line)
                .order_by(TextTable.id.desc()).all())
