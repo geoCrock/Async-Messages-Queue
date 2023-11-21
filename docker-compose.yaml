@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      DATABASE_URL: postgresql://your_postgres_user:your_postgres_password@postgres:5432/your_postgres_db
+      POSTGRESQL_URL: postgresql://your_postgres_user:your_postgres_password@postgres:5432/your_postgres_db
       RABBITMQ_URL: amqp://your_rabbitmq_user:your_rabbitmq_password@rabbitmq:5672/
     ports:
       - "8888:8888"
