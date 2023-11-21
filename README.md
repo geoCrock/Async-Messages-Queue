@@ -1,7 +1,49 @@
 # AsyncMessagesQueue
 Тестовое задание для компании "BAUM STORAGE"
 
+Приложение использует: FastAPI, RabbitMQ, PostgreSQL, Sqlalchemy, Pydantic
+
 Это асинхронное FastAPI-приложение, взаимодействующее с RabbitMQ для обмена сообщениями и использующее PostgreSQL в качестве базы данных. Приложение упаковано в контейнеры с использованием Docker и управляется с помощью Docker Compose.
+
+## Использование
+- Используйте `/count-x-from-text`, чтобы загружать сообщения в RabbitMQ в JSON формате.
+
+Принимает в себя JSON:
+
+```json
+[
+  {
+    "datetime": "15.11.2023 15:00:25.001",
+    "title": "Very fun book",
+    "text": "...Rofl...lol../n..ololo..."
+  },
+  {
+    "datetime": "18.01.2023 12:00:25.001",
+    "title": "Other very fun book",
+    "text": "...nice...lol../n..XxxloXX..."
+  }
+]
+```
+- Используйте `/get-x`, чтобы получать результаты из базы данных PostgreSQL.
+- 
+Возвращает:
+
+```json
+[
+{
+"datetime": "15.11.2023 15:00:25.001",
+ "title": "Very fun book",
+ "x_avg_count_in_line": 0.012
+},
+
+{
+"datetime": "18.01.2023 12:00:25.001",
+ "title": "Other very fun book",
+ "x_avg_count_in_line": 0.032
+}
+
+]
+```
 
 ## Запуск
 
@@ -36,12 +78,9 @@
    ```bash
     main.py
     ```
-
    
-## Использование
+6. Ваше FastAPI-приложение будет доступно по адресу http://localhost:8888.
 
-- Используйте `/count-x-from-text`, чтобы загружать сообщения в RabbitMQ в JSON формате.
-- Используйте `/get-x`, чтобы получать результаты из базы данных PostgreSQL.
 
 
 ## Запуск через Docker 
