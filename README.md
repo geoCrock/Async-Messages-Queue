@@ -3,7 +3,7 @@
 
 Приложение использует: FastAPI, RabbitMQ, PostgreSQL, Sqlalchemy, Pydantic
 
-Это асинхронное FastAPI-приложение, взаимодействующее с RabbitMQ для обмена сообщениями и использующее PostgreSQL в качестве базы данных. Приложение упаковано в контейнеры с использованием Docker и управляется с помощью Docker Compose.
+Это асинхронное FastAPI-приложение, взаимодействующее с RabbitMQ для обмена сообщениями и использующее PostgreSQL в качестве базы данных и .SQLAlchemy в качесте ORM системы Приложение упаковано в контейнеры с использованием Docker и управляется с помощью Docker Compose.
 
 ## Использование
 - Используйте `/count-x-from-text`, чтобы загружать сообщения в RabbitMQ в JSON формате.
@@ -31,18 +31,16 @@
 
 ```json
 [
-{
-"datetime": "15.11.2023 15:00:25.001",
- "title": "Very fun book",
- "x_avg_count_in_line": 0.012
-},
-
-{
-"datetime": "18.01.2023 12:00:25.001",
- "title": "Other very fun book",
- "x_avg_count_in_line": 0.032
-}
-
+  {
+    "datetime": "15.11.2023 15:00:25.001",
+     "title": "Very fun book",
+     "x_avg_count_in_line": 0.012
+  },
+  {
+    "datetime": "18.01.2023 12:00:25.001",
+    "title": "Other very fun book",
+    "x_avg_count_in_line": 0.032
+  }
 ]
 ```
 
