@@ -5,13 +5,13 @@ from sqlalchemy.orm import sessionmaker
 
 from app.config import POSTGRESQL_URL
 
-# Подключаемся к базе данных
+# Connecting to the database
 DATABASE_URL = POSTGRESQL_URL
 database = Database(DATABASE_URL)
 metadata = declarative_base()
 
 
-# Определяем модель для таблицы в базе данных
+# Defining a model for a table in the database
 class TextTable(metadata):
     __tablename__ = "x_count_form_text"
     id = Column(Integer, primary_key=True, index=True)
@@ -20,9 +20,9 @@ class TextTable(metadata):
     x_avg_count_in_line = Column(Float)
 
 
-# Создаем таблицу в базе данных
+# Create a table in the database
 engine = create_engine(DATABASE_URL)
 metadata.metadata.create_all(bind=engine)
 
-# Создаем сессию для работы с базой данных
+# Create a session to work with the database
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
