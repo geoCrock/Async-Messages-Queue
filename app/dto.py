@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-# Определяем схему для запроса и ответа
+# Defining the schema for the request
 class TextCreate(BaseModel):
     datetime: str
     title: str
