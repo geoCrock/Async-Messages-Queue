@@ -1,128 +1,126 @@
-# AsyncMessagesQueue
-Тестовое задание для компании "BAUM STORAGE"
+#AsyncMessagesQueue
 
-Это асинхронное FastAPI-приложение, взаимодействующее с RabbitMQ для обмена сообщениями, и использующее PostgreSQL в качестве базы данных, и SQLAlchemy в качесте ORM системы.
-Так же использует Pydantic для обработки входящих данных.
+It is an asynchronous FastAPI application that interacts with RabbitMQ for messaging, and uses PostgreSQL as a database and SQLAlchemy as an ORM system.
+It also uses Pydantic to process incoming data.
 
-Принимает в себя параметры: datetime(str), title(str), text(str). Отправляет весь запрос в RabbitMQ, далее когда мы получаем эти данные из RabbitMQ ,они отправляются в БД, считается среднее колличество "X" в тексте за каждую строчку и сохраняет его как "x_avg_count_in_line". Далее при запросе "/get-x", возвращает все данные из БД по ID(ID скрыт и не показывается).   
+Accepts parameters: datetime(str), title(str), text(str). Sends the entire request to RabbitMQ, then when we receive this data from RabbitMQ, it is sent to the database, the average number of “X” in the text for each line is calculated and saved as “x_avg_count_in_line”. Next, when requesting “/get-x”, it returns all data from the database by ID (ID is hidden and not shown).
 
-Приложение упаковано в контейнеры с использованием Docker и управляется с помощью Docker Compose.
+The application is containerized using Docker and managed using Docker Compose.
 
-## Использование
-- Используйте `/count-x-from-text`, чтобы загружать сообщения в RabbitMQ в JSON формате.
+## Usage
+- Use `/count-x-from-text` to load messages into RabbitMQ in JSON format.
 
-Принимает в себя JSON:
-
-```json
-[
-  {
-    "datetime": "15.11.2023 15:00:25.001",
-    "title": "Very fun book",
-    "text": "...Rofl...lol../n..ololo..."
-  },
-  {
-    "datetime": "18.01.2023 12:00:25.001",
-    "title": "Other very fun book",
-    "text": "...nice...lol../n..XxxloXX..."
-  }
-]
-```
-
-- Используйте `/get-x`, чтобы получать результаты из базы данных PostgreSQL.
-  
-Возвращает:
+Accepts JSON:
 
 ```json
 [
-  {
-    "datetime": "15.11.2023 15:00:25.001",
+   {
+     "datetime": "11/15/2023 15:00:25.001",
      "title": "Very fun book",
-     "x_avg_count_in_line": 0.012
-  },
-  {
-    "datetime": "18.01.2023 12:00:25.001",
-    "title": "Other very fun book",
-    "x_avg_count_in_line": 0.032
-  }
+     "text": "...Rofl...lol../n..ololo..."
+   },
+   {
+     "datetime": "01/18/2023 12:00:25.001",
+     "title": "Other very fun book",
+     "text": "...nice...lol../n..XxxloXX..."
+   }
 ]
 ```
 
-## Запуск
+- Use `/get-x` to get results from a PostgreSQL database.
+  
+Returns:
 
-Перед запуском не забудьте создать и активировать виртуальное окружение
+```json
+[
+   {
+     "datetime": "11/15/2023 15:00:25.001",
+      "title": "Very fun book",
+      "x_avg_count_in_line": 0.012
+   },
+   {
+     "datetime": "01/18/2023 12:00:25.001",
+     "title": "Other very fun book",
+     "x_avg_count_in_line": 0.032
+   }
+]
+```
 
-1. Склонируйте репозиторий:
+## Launch
 
-    ```bash
-    git clone https://github.com/geoCrock/AsyncMessagesQueue.git
-    ```
+Before starting, do not forget to create and activate a virtual environment
 
-2. Перейдите в директорию проекта:
+1. Clone the repository:
 
-    ```bash
-    cd AsyncMessagesQueue
-    ```
+     ```bash
+     git clone https://github.com/geoCrock/AsyncMessagesQueue.git
+     ```
 
-3. Создайте файл `.env` в корне проекта и укажите необходимые переменные окружения:
+2. Go to the project directory:
 
-   Пример:
-    ```env
-    POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
+     ```bash
+     cd AsyncMessagesQueue
+     ```
+
+3. Create a `.env` file in the project root and specify the necessary environment variables:
+
+    Example:
+     ```env
+     POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
     
-    RABBITMQ_URL = "amqp://guest:guest@localhost/"
-    ```
+     RABBITMQ_URL = "amqp://guest:guest@localhost/"
+     ```
 
-   Указывайте ваши параметры
+    Specify your parameters
    
-5. Запустите main.py в папке app:
-   ```bash
-    cd app
-    ```
+5. Run main.py in the app folder:
+    ```bash
+     cd app
+     ```
 
-   ```bash
-    main.py
-    ```
+    ```bash
+     main.py
+     ```
    
-6. Ваше FastAPI-приложение будет доступно по адресу http://localhost:8888.
+6. Your FastAPI application will be available at http://localhost:8888.
 
 
 
-## Запуск через Docker 
+## Running via Docker
 
-Убедитесь, что на вашей системе установлены следующие компоненты:
+Make sure the following components are installed on your system:
 
-- Docker
+-Docker
 - Docker Compose
 
-1. Склонируйте репозиторий:
+1. Clone the repository:
 
-    ```bash
-    git clone https://github.com/geoCrock/AsyncMessagesQueue.git
-    ```
+     ```bash
+     git clone https://github.com/geoCrock/AsyncMessagesQueue.git
+     ```
 
-2. Перейдите в директорию проекта:
+2. Go to the project directory:
 
-    ```bash
-    cd AsyncMessagesQueue
-    ```
+     ```bash
+     cd AsyncMessagesQueue
+     ```
 
-3. Создайте файл `.env` в корне проекта и укажите необходимые переменные окружения:
+3. Create a `.env` file in the project root and specify the necessary environment variables:
 
 
-   Пример:
-    ```env
-    POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
+    Example:
+     ```env
+     POSTGRES_URL = "postgresql://postgresql:postgresql@localhost/countx"
     
-    RABBITMQ_URL = "amqp://guest:guest@localhost/"
-    ```
+     RABBITMQ_URL = "amqp://guest:guest@localhost/"
+     ```
 
-   Указывайте ваши параметры
+    Specify your parameters
 
-5. Соберите и запустите Docker-контейнеры:
+5. Build and run Docker containers:
 
-    ```bash
-    docker-compose up --build
-    ```
+     ```bash
+     docker-compose up --build
+     ```
 
-6. Ваше FastAPI-приложение будет доступно по адресу [http://localhost:8888](http://localhost:8888).
-
+6. Your FastAPI application will be available at [http://localhost:8888](http://localhost:8888).
