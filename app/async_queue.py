@@ -5,51 +5,51 @@ from config import RABBITMQ_URL
 from xcount import count_x
 
 
-# Асинхронная функция для отправки сообщения
+# Asynchronous function to send a message
 async def send_message(datetime: str, title: str, text: str):
-    # Устанавливаем соединение с RabbitMQ
+    # Establishing a connection with RabbitMQ
     connection = await aio_pika.connect_robust(RABBITMQ_URL)
 
-    # Создаем канал для обмена данными с RabbitMQ
+    # Creating a channel for data exchange with RabbitMQ
     channel = await connection.channel()
 
-    # Задаем имя очереди
+    # Set the queue name
     queue_name = "text"
 
-    # Объявляем очередь
+    # We announce the queue
     await channel.declare_queue(queue_name)
 
-    # Создаем тело сообщения
+    # Creating the body of the message
     message_body = text
 
-    # Создаем объект сообщения с указанным телом и хедом
+    # Create a message object with the specified body and head
     message = aio_pika.Message(body=message_body.encode(), headers={'datetime': datetime, 'title': title})
 
-    # Публикуем сообщение в очередь
+    # Publish a message to the queue
     await channel.default_exchange.publish(message, routing_key=queue_name)
 
-    # Закрываем соединение
+    # Closing the connection
     await connection.close()
 
 
 async def receive_message():
-    # Устанавливаем соединение с RabbitMQ
+    # Establishing a connection with RabbitMQ
     connection = await aio_pika.connect_robust(RABBITMQ_URL)
 
-    # Создаем канал для обмена данными с RabbitMQ
+    # Creating a channel for data exchange with RabbitMQ
     channel = await connection.channel()
 
-    # Задаем имя очереди
+    # Set the queue name
     queue_name = "text"
 
-    # Объявляем очередь
+    # We announce the queue
     queue = await channel.declare_queue(queue_name)
 
-    # Функция обратного вызова для обработки полученных сообщений
+    # Callback function to process received messages
     async def callback(message: aio_pika.IncomingMessage):
-        # Асинхронно обрабатываем сообщение
+        # We process the message asynchronously
         async with message.process():
-            # Добавляем сообщение в БД
+            # Adding a message to the database
             title = message.headers.get("title", "")
             datetime = message.headers.get('datetime', '')
             x = await count_x(message.body.decode())
@@ -60,5 +60,5 @@ async def receive_message():
             db.refresh(db_text)
             db.close()
 
-    # Устанавливаем функцию обратного вызова для обработки сообщений из очереди
+    # Set up a callback function to process messages from the queue
     await queue.consume(callback)
