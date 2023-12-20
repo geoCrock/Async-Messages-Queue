@@ -30,7 +30,7 @@ async def count_x_from_text(info: List[TextCreate]):
         title = i.title
         text = i.text
         await send_message(datetime, title, text)
-    # Интервал 3 секунды
+    # Interval 3 seconds
     await asyncio.sleep(3)
     return 'Messages send!'
 
