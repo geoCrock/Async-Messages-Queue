@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-# Импорт переменных окружения
+# Import environment
 load_dotenv()
 
 POSTGRESQL_URL = os.environ.get('POSTGRESQL_URL')
