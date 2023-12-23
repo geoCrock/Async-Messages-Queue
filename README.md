@@ -96,7 +96,7 @@ Make sure the following components are installed on your system:
 1. Clone the repository:
 
      ```bash
-     git clone https://github.com/geoCrock/AsyncMessagesQueue.git
+     git clone https://github.com/geoCrock/Async-Messages-Queue.git
      ```
 
 2. Go to the project directory:
