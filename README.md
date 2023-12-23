@@ -1,4 +1,4 @@
-# AsyncMessagesQueue
+# Async Messages Queue
 
 It is an asynchronous FastAPI application that interacts with RabbitMQ for messaging, and uses PostgreSQL as a database and SQLAlchemy as an ORM system.
 It also uses Pydantic to process incoming data.
