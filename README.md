@@ -53,7 +53,7 @@ Before starting, do not forget to create and activate a virtual environment
 1. Clone the repository:
 
      ```bash
-     git clone https://github.com/geoCrock/AsyncMessagesQueue.git
+     https://github.com/geoCrock/Async-Messages-Queue.git
      ```
 
 2. Go to the project directory:
@@ -75,12 +75,12 @@ Before starting, do not forget to create and activate a virtual environment
    
 5. Run main.py in the app folder:
     ```bash
-     cd app
-     ```
+    cd app
+    ```
 
     ```bash
-     main.py
-     ```
+    main.py
+    ```
    
 6. Your FastAPI application will be available at http://localhost:8888.
 
